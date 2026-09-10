@@ -72,16 +72,25 @@ If you add a page, update the `Page N of 13` footer on every page.
 
 ## Publishing a change
 
-The Vercel project `np-proposal-2026` is **not** connected to this repository
-yet, so pushing here does not update the live URL on its own. Either:
+The Vercel project `np-proposal-2026` is connected to this repository, so every
+push builds automatically. Pushing this branch already produces a working
+deployment.
 
-**Connect it once, then every push publishes.** In Vercel, open the
-`np-proposal-2026` project → Settings → Git → Connect Git Repository → pick
-`yygreen/Ampartition`. After that, a push to the production branch deploys
-automatically.
+One setting still stands between a push and the live URL: Vercel's **production
+branch**. Pushes to this branch currently build as *previews*, at
 
-**Or ask Claude to deploy.** Claude can push the current files straight to
-Vercel, either to a preview URL to check first or to production to go live.
+    np-proposal-2026-git-claude-dazzling-rubin-ip5o5a-rmbh.vercel.app
+
+Preview URLs sit behind Vercel Authentication, so you have to be signed in to
+Vercel to open one, and they are safe to share only with people who are. The
+live URL, https://np-proposal-2026.vercel.app/, is public and is what the client
+sees — it keeps serving the last production deployment until a push lands on the
+production branch.
+
+To make pushes here go straight to the live URL, set the production branch in
+Vercel: project `np-proposal-2026` → Settings → Git → Production Branch. Until
+then, preview first and promote in Vercel when you are happy with it, which is
+the safer order for a document a client is reading.
 
 ## Sending it as a single file
 
