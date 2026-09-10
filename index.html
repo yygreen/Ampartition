@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Partitions Proposal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Montserrat:wght@600;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Light by design, printed and read on paper. Type is sized to be read comfortably,
+   and the document runs as long as it needs to. */
+:root{
+  --display:"Archivo","Segoe UI",Helvetica,Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
+  --ground:#FAF1E0; --paper:#FFFFFF; --ink:#1A1614; --soft:#4E463F; --rule:#DCCFB8;
+  --blue-ink:#173FA5;  --blue-bg:#C9DAFF;
+  --green-ink:#0E5F2C; --green-bg:#B9E8C6;
+  --amber-ink:#8A4A00; --amber-bg:#FFD9A3;
+  --red-ink:#A81E1E;   --red-bg:#FFCFC9;
+  --purple-ink:#6B2A8F;--purple-bg:#EBD2FB;
+  --gold:#FFD54F;      --gold-ink:#3A2600;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);
+  font-size:11pt;line-height:1.55;margin:0;padding:28px 14px}
+h1,h2,h3,h4,.brand,.sec .n,.stat .big,.panel .lbl,th,.tag,.meta .k,ol.steps li::before{font-family:var(--display)}
+td.num,th.num,.stat .big{font-variant-numeric:tabular-nums}
+
+.page{width:210mm;min-height:297mm;background:var(--paper);margin:0 auto 22px;
+  padding:15mm 17mm 12mm;position:relative;box-shadow:0 2px 18px rgba(60,40,10,.16);
+  display:flex;flex-direction:column}
+.page > .sec:first-child{margin-top:0}
+.foot{margin-top:auto;padding-top:3mm;border-top:1.6px solid var(--ink);
+  font-size:9pt;color:var(--soft);display:flex;justify-content:space-between}
+
+/* ---------- masthead ---------- */
+.brocha{text-align:right;font-size:12.5pt;color:var(--blue-ink);font-weight:600;margin:4mm 0 0;font-family:"Segoe UI","Arial Hebrew",Arial,sans-serif}
+.bsd{text-align:right;font-size:10pt;color:var(--soft);margin:0 0 3.5mm}
+.top{display:flex;justify-content:space-between;align-items:center;
+  border-bottom:3px solid var(--ink);padding-bottom:4mm;margin-bottom:7mm}
+.brand{font-weight:800;letter-spacing:.17em;font-size:11.5pt}
+.logo{height:15mm;width:auto;display:block}
+.src{font-size:9pt;color:var(--soft);margin:0 0 7mm}
+a.cite{color:var(--blue-ink);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.note{font-size:10pt;color:var(--soft)}
+p.note{margin:0}
+.pay{display:grid;grid-template-columns:1fr 1.5fr;gap:5mm;margin:4mm 0}
+.pay .card p{font-size:10.5pt;line-height:1.5}
+.pay .card p b{font-variant-numeric:tabular-nums}
+.pay a.cite{word-break:break-all}
+.shots{display:grid;gap:4mm;margin:3mm 0 5mm}
+.shots.two{grid-template-columns:1fr 1fr}
+.shots.three{grid-template-columns:repeat(3,1fr)}
+.shot{margin:0}
+.shot .im{border:1px solid #D8CDB8;background:#fff;overflow:hidden}
+.shot .im img{display:block;width:100%;height:auto}
+.shot .im.h30{height:30mm}
+.shot .im.h30 img{height:100%;object-fit:cover;object-position:center top}
+.shot figcaption{font-size:9pt;color:var(--soft);margin-top:1.5mm;line-height:1.35}
+@media print{.note a.cite::after{content:" (hbr.org/2011/03/the-short-life-of-online-sales-leads)"}}
+.forwho{font-size:9.5pt;letter-spacing:.1em;color:var(--soft);text-transform:uppercase}
+
+h1{font-size:28pt;line-height:1.08;margin:0 0 5mm;letter-spacing:-.015em;font-weight:800;text-wrap:balance}
+h1 em{font-style:italic;color:var(--blue-ink)}
+.lede{font-size:13pt;line-height:1.45;color:#332C26;margin:0 0 4mm}
+
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:6mm;
+  background:var(--blue-bg);border-left:6px solid var(--blue-ink);
+  padding:4mm 5.5mm;margin-bottom:4mm}
+.meta div{font-size:10pt;line-height:1.4}
+.meta .k{display:block;font-size:8pt;letter-spacing:.13em;text-transform:uppercase;
+  color:#0F2A6E;font-weight:800;margin-bottom:1.5mm}
+.fill{color:#6E3B00;font-weight:700;background:#FFF3DF;
+  border-bottom:2px dashed var(--amber-ink);padding:.5mm 1.5mm;white-space:nowrap}
+
+/* ---------- sections ---------- */
+.sec{display:flex;align-items:baseline;gap:4mm;margin:6mm 0 3mm}
+.sec .n{font-size:9pt;font-weight:800;letter-spacing:.14em;
+  background:var(--ink);color:#fff;padding:1.6mm 3mm}
+.sec h2{font-size:18pt;margin:0;font-weight:800;letter-spacing:-.012em;text-wrap:balance}
+
+h3{font-size:12.5pt;margin:5mm 0 2.5mm;font-weight:800;color:var(--blue-ink)}
+p{margin:0 0 3.2mm}
+
+/* ---------- stat trio ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin:4mm 0}
+.stat{padding:4.5mm 5mm;border-top:6px solid}
+.stat .big{font-size:24pt;font-weight:800;line-height:1;margin-bottom:3mm}
+.stat p{margin:0;font-size:10pt;line-height:1.42;color:#241F1A}
+.s1{background:var(--blue-bg);border-color:var(--blue-ink)} .s1 .big{color:var(--blue-ink)}
+.s2{background:var(--green-bg);border-color:var(--green-ink)} .s2 .big{color:var(--green-ink)}
+.s3{background:var(--amber-bg);border-color:var(--amber-ink)} .s3 .big{color:#7A4100}
+
+/* ---------- panels ---------- */
+.panel{padding:4mm 5.5mm;margin:5mm 0}
+.panel p{margin:0;line-height:1.45}
+.panel .lbl{display:block;font-size:8.5pt;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:800;margin-bottom:1.8mm}
+.p-gold{background:var(--gold);color:var(--gold-ink)} .p-gold .lbl{color:#5A3B00}
+.p-green{background:var(--green-bg);color:#0D3A20} .p-green .lbl{color:var(--green-ink)}
+.p-red{background:var(--red-bg);color:#511212} .p-red .lbl{color:var(--red-ink)}
+.p-amber{background:var(--amber-bg);color:#4A2700} .p-amber .lbl{color:#7A4100}
+.p-blue{background:var(--blue-bg);color:#0F2A6E} .p-blue .lbl{color:var(--blue-ink)}
+.p-purple{background:var(--purple-bg);color:#3C1655} .p-purple .lbl{color:var(--purple-ink)}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;margin:4mm 0;font-size:10.5pt}
+th{background:var(--blue-bg);color:#0F2A6E;text-align:left;
+  font-size:8.5pt;letter-spacing:.09em;text-transform:uppercase;padding:3mm 3.5mm;
+  border-bottom:3px solid var(--blue-ink)}
+td{padding:3mm 3.5mm;border-bottom:1px solid var(--rule);line-height:1.4}
+td.num,th.num{text-align:right}
+tr.total td{background:var(--green-bg);color:var(--green-ink);font-weight:800;border-bottom:none;font-size:11.5pt}
+tr.pick td{background:var(--gold);color:var(--gold-ink);font-weight:700}
+.tag{display:inline-block;background:var(--gold-ink);color:var(--gold);
+  font-size:7.5pt;letter-spacing:.09em;font-weight:800;padding:1mm 2.4mm;margin-left:2.5mm;vertical-align:1.5px}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin:4mm 0}
+.card{padding:4mm;border-top:6px solid;background:#FBF7EF}
+.card h4{margin:0 0 2mm;font-size:12pt;font-weight:800}
+.card p{margin:0;font-size:10pt;line-height:1.38;color:#2B251F}
+.c-b{border-color:var(--blue-ink)} .c-b h4{color:var(--blue-ink)}
+.c-g{border-color:var(--green-ink)} .c-g h4{color:var(--green-ink)}
+.c-p{border-color:var(--purple-ink)} .c-p h4{color:var(--purple-ink)}
+
+/* ---------- numbered jobs ---------- */
+.step{position:relative;padding-left:14mm;margin:0 0 3mm;line-height:1.5}
+.step .no{position:absolute;left:0;top:0;width:9.5mm;height:9.5mm;background:var(--blue-ink);color:#fff;font-weight:800;
+  font-size:12pt;display:flex;align-items:center;justify-content:center;font-family:var(--display)}
+.step b{font-size:11.5pt}
+
+/* ---------- needs list ---------- */
+.needs{margin:3mm 0}
+.needs div{display:flex;justify-content:space-between;gap:8mm;align-items:baseline;
+  font-size:10.5pt;padding:1.3mm 0;border-bottom:1px solid var(--rule);line-height:1.4}
+.needs .what{flex:1;color:var(--ink);font-weight:400;white-space:normal}
+.needs span{color:#6E3B00;font-weight:700;white-space:nowrap}
+
+/* ---------- agreement ---------- */
+.agree{background:var(--blue-bg);border:3px solid var(--blue-ink);padding:4mm 7mm;margin:3mm 0}
+.agree h3{margin:0 0 4mm;color:var(--blue-ink);font-size:15pt}
+.arow{display:flex;justify-content:space-between;align-items:baseline;gap:8mm;
+  padding:3.5mm 0;border-bottom:1px solid #8FA9E0;font-size:11pt}
+.arow:last-of-type{border-bottom:none}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:14mm;margin-top:5mm}
+.sign div{border-top:2px solid var(--blue-ink);padding-top:3mm;
+  font-size:10pt;color:#0F2A6E;letter-spacing:.02em}
+
+.close{margin-top:2mm;padding-top:2.5mm;border-top:2px solid var(--ink);
+  font-size:10.5pt;color:var(--soft)}
+
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff;padding:0}
+  .page{margin:0;box-shadow:none;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:auto;break-after:auto}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <p class="bsd">בס"ד</p>
+
+  <div class="top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 4 143 74" class="logo" role="img" aria-label="Rank Friendly">
+  <style>
+    .rf-rank{font-family:"Montserrat","Archivo","Segoe UI",Arial,sans-serif;font-weight:800;font-size:58px;fill:#009EC7}
+    .rf-friendly{font-family:"Montserrat","Archivo","Segoe UI",Arial,sans-serif;font-weight:600;font-size:26px;fill:#009EC7}
+  </style>
+  <text class="rf-rank" x="29" y="49" textLength="30" lengthAdjust="spacingAndGlyphs">R</text>
+  <polygon fill="#AFD951" points="63,23 81,7 99,23 99,35 81,19 63,35"></polygon>
+  <polygon fill="#AFD951" points="63,39 81,23 99,39 99,49.5 97.3,49.5 81,35 64.7,49.5 63,49.5"></polygon>
+  <text class="rf-rank" x="104" y="49" textLength="60" lengthAdjust="spacingAndGlyphs">NK</text>
+  <text class="rf-friendly" x="28" y="73" textLength="135" lengthAdjust="spacing">FRIENDLY</text>
+</svg>
+    <span class="forwho">Prepared for Next Partitions · September 2026</span>
+  </div>
+
+  <h1>Be the one who <em>answers first</em>.<br>And the one customers and Google can trust.</h1>
+
+  <p class="lede">Your customers send the same request to three suppliers, and the first real price usually wins.
+  <span class="note">(<a class="cite" href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads" target="_blank" rel="noopener">Harvard Business Review</a> measured this across 1.25 million sales leads.)</span>
+  The same study found that if you reply within the hour, you are nearly seven times more likely to reach the person who decides than if you wait even one hour longer. Forty-eight pages of your site are already live, and your configurator already quotes. What is left is what a designer cannot ship: proof a buyer can check,
+  installers who take the job, a product list Google can see, and one clear promise on how fast you
+  quote, in place of the four different ones your site makes today.</p>
+
+  <div class="meta">
+    <div><span class="k">Prepared for</span><b>Abe Gold</b><br>Next Partitions</div>
+    <div><span class="k">Prepared by</span><b>Joseph Green</b><br>Rank Friendly</div>
+    <div><span class="k">Date</span><b>September 2026</b></div>
+    <div><span class="k">Proposed start</span><b>September 15, 2026</b></div>
+  </div>
+
+  <div class="sec"><span class="n">01</span><h2>No one owns your market online yet, and there is room for you at the top</h2></div>
+
+  <div class="stats">
+    <div class="stat s1"><div class="big">$21.74</div>
+      <p>What you would pay Google for one click on these searches, on average. Their difficulty score is 23 on a scale of 0 to 100 that measures how hard a search is to rank for: expensive to buy as ads, easy to win in the free results.</p></div>
+    <div class="stat s2"><div class="big">$133K</div>
+      <p>What your competitor PartitionPlus would have to pay Google each month to buy the visitors it now gets free by ranking. Its actual ad spend is about $162 a month.</p></div>
+    <div class="stat s3"><div class="big">170</div>
+      <p>Searches that name a city, like “bathroom partitions Dallas”, that nobody ranks for yet. The priciest would cost you $43.31 a click to buy.</p></div>
+  </div>
+
+  <p class="note">Sources: our keyword and competitor research, and our page-by-page review of your site on September 9, 2026.</p>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 1 of 13</span></div>
+</div>
+
+<div class="page">
+  <p>Being found fast is part of answering first: a buyer who cannot find you cannot send you the
+  request. No big brand owns your category online. The largest site in it draws around 24,000 visitors a month. That is a modest number for a market leader, and within reach of a site that does the four jobs in this proposal. The searches your buyers use are expensive to advertise on and
+  unusually easy to rank for, and the city-by-city searches, where most of your buyers start, belong
+  to no one yet.</p>
+
+  <div class="sec"><span class="n">02</span><h2>What your site has today, and what it is missing</h2></div>
+
+  <p>We went through your whole site on September 9 and read all 48 pages, including the configurator, which is reachable from two different links. Mark has shipped a lot since we first
+  researched your market in February, and that changes what your money should go to. Your five
+  material pages are genuinely good: real spec tables, properly tagged so Google can show them as
+  products, and honest guidance like steering buyers away from plastic laminate in pools and locker
+  rooms. Your six industry pages have question-and-answer sections and per-stall budget ranges. None
+  of that needs redoing.</p>
+
+  <div class="cards">
+    <div class="card c-g"><h4>18 strong pages</h4><p>Your materials, six industry pages, four brand pages, ADA compliance and service area pages are well written. What they lack is proof from outside your
+      site, and other sites linking to them.</p></div>
+    <div class="card c-b"><h4>25 thin pages</h4><p>Every hardware page, every mounting-style page, three of your four guides, three brand pages, and your homepage, about, contact and FAQ pages run under 400 words, most under 250.</p></div>
+    <div class="card c-p"><h4>3 broken pages</h4><p>Your <b>/guides</b> page is blank. Your <b>/blog</b>
+      says Coming Soon. Your <b>/products</b> page shows Google only ten words: the Shopify product list
+      loads after Google has already read the page, and not one of your products has its own page Google can find.</p></div>
+  </div>
+
+  <div class="shots three">
+    <figure class="shot"><div class="im h30"><img src="images/guides-page-blank.png" alt=""></div><figcaption>Your /guides page: nothing between the menu and the footer.</figcaption></figure>
+    <figure class="shot"><div class="im h30"><img src="images/blog-coming-soon.png" alt=""></div><figcaption>Your /blog: Coming Soon.</figcaption></figure>
+    <figure class="shot"><div class="im h30"><img src="images/products-no-products-found.png" alt=""></div><figcaption>Your /products page: No products found.</figcaption></figure>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 2 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="panel p-red">
+    <span class="lbl">Your site promises four different quote times</span>
+    <p>Your configurator, on the screen where a buyer hands over his contact details, promises shop
+    drawings and a quote <b>within 2 hours</b>; its confirmation screen says <b>2 business
+    hours</b>. Your contact and service-area pages say <b>one business day</b>. Your homepage says
+    <b>24 to 48 hours</b>, in five separate places. That is four promises, up to twenty-four times apart. A
+    buyer who sees 2 hours on one page and 48 on the next stops trusting both. Whichever number you
+    actually keep to, the other three have to go.</p>
+  </div>
+
+  <div class="shots one">
+    <figure class="shot"><div class="im"><img src="images/configurator-2-hour-promise.png" alt=""></div><figcaption>Your configurator, on the screen where the buyer leaves his details: a quote within 2 hours.</figcaption></figure>
+    <figure class="shot"><div class="im"><img src="images/homepage-24-48-hour-promise.png" alt=""></div><figcaption>Your homepage, a few clicks earlier: custom quotes in 24 to 48 hours.</figcaption></figure>
+  </div>
+
+  <div class="panel p-amber">
+    <span class="lbl">What your buyer can check, and what he cannot</span>
+    <p>Your homepage claims <b>Authorized Distributor, All Major Brands</b>, and the manufacturer
+    badges are there to back it. A badge on your page is you saying it. A listing in Bobrick’s dealer
+    locator is Bobrick saying it, and that is where a careful buyer looks next. He also wants a
+    street address, years in business, reviews, and a trade association listing. Today <b>your site has none of them</b>.</p>
+  </div>
+
+  <div class="shots two">
+    <figure class="shot"><div class="im h30"><img src="images/homepage-brand-badge-row.png" alt=""></div><figcaption>The badge row on your homepage. The Bobrick badge does not load; it shows as a grey mark.</figcaption></figure>
+    <figure class="shot"><div class="im h30"><img src="images/bradley-retailer-list.png" alt=""></div><figcaption>Bradley’s own list of online retailers. Total Restroom and ToiletPartitions.com are on it. Next Partitions is not.</figcaption></figure>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 3 of 13</span></div>
+</div>
+
+<div class="page">
+  <h3>What your market still leaves open</h3>
+
+  <p>Your hardware and mounting-style pages are already live for searches that would cost you only
+  $1.74 to $3.28 a click, about an eighth of the main searches, with no competitor paying for them.
+  They are also the thinnest pages on your site. “Stainless steel partitions” gets 850 searches a
+  month at a difficulty of 0 to 4. “Urinal screens” gets 1,190 a month at 1 to 3. And 170 searches
+  that name a city sit at 0 to 5 with nobody ranking for them, while five of your competitors spend
+  about $34,000 a month between them fighting over the main searches, where “bathroom partitions”
+  alone costs $20.49 a click.</p>
+
+  <div class="panel p-gold">
+    <span class="lbl">What we are proposing</span>
+    <p><b>In the first thirty days, we give your buyers and Google proof that Next Partitions is real. In the months after that, we build you an installer network no competitor has. That costs you $6,500 a month in credits, plus an optional 90-day Google Ads test that ends with our written recommendation to continue or stop.</b></p>
+  </div>
+
+  <div class="sec"><span class="n">03</span><h2>Four jobs, in this order</h2></div>
+
+  <p>Your site is built, so your money goes to the four things a designer cannot ship.</p>
+
+  <div class="step"><span class="no">1</span><b>Proof that you are real, first and biggest.</b><br>Google and your buyer both want
+  someone other than you to confirm what your homepage says. We put a verifiable business address on your site and on Google Business Profile. We check which of the seven brands you carry (Bobrick, Bradley, Metpar, Scranton, ASI Global, Ammco, Hadrian) will list you in their dealer locator, and we submit the request to each one. We do the same with the trade associations and the industry directories where your buyers look. We set up review collection from your existing customers. Then we set up your site so Google can match your address, your Google Business Profile and every accepted listing as the same business. Each accepted listing turns Authorized Distributor from a badge on your site into a listing on theirs. Whether to list you is the manufacturer’s decision; the request, the paperwork and the follow-up are ours.</div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 4 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="step"><span class="no">2</span><b>The installer directory.</b><br>No partition vendor in your market runs one; we
+  checked all six of your competitors. A buyer ordering from a supplier he has never met wants to
+  know who will hang the panels. Your directory answers that: a profile per installer showing the
+  area he covers, the materials he works with, license and insurance we have checked, job photos and
+  reviews, searchable by city. The buyer still buys the partitions from you; the installer gets the
+  install and a page that sends him work in his area. In return he sends you license, insurance and
+  photos, and he picks up the phone. Names are easy to copy. Installers who take jobs are not, and every city where one is listed becomes a city page you can stand behind.<br>Each listed installer also links to you. He gets a page worth linking to and a Listed Installer badge for his own website, he links to Next Partitions from his site and his Google Business Profile, and we follow up until he has. That is where the links from outside your site come from: one real local business in each city vouching for you, which is exactly what your 18 strong pages are missing today. Nothing bought, nothing begged for.</div>
+
+  <div class="step"><span class="no">3</span><b>One correct product list, starting with a catalogue Google cannot see.</b><br>Your
+  Shopify products load after Google has already read the page, so Google sees only ten words on
+  <b>/products</b>, and not one product has a page Google can find. Every product you sell is
+  invisible to search. Before we build the list, we go through your five material pages and the
+  seven configurator steps against the manufacturer spec sheets: the dimensions, finishes and
+  mounting options have to be accurate, the pages easy to use, and the configurator has to ask
+  for every detail a real quote needs. Then one master product list feeds your product pages, your
+  configurator, the code Google reads, and Google Shopping if you turn it on, so a price or a
+  spec changes once and is right everywhere.</div>
+
+  <div class="step"><span class="no">4</span><b>Customer service: one promise on quote speed, and the routine that keeps it.</b><br>You
+  pick the one number you can keep to, and we put it everywhere your site currently promises one.
+  Then we build what holds it. A named person answers your quote requests. A standard reply carries the drawings and the price every time. We install live chat on your site in month one, and our own agents answer it around the clock. They study your business first, then handle each visitor while he is still on the page and pass you the lead. The chat is included free until it has produced 50 real leads; after that we agree a price per lead with you before it continues. We arrange cover for holidays and closures. We log every quote request and how fast it was answered, and each month you get a report comparing your real response time to the promise you published.</div>
+
+  <div class="panel p-green">
+    <span class="lbl">Since you asked: your website on Shabbat and holidays</span>
+    <p>Keep the site up and the configurator working; buyers browse and price on Saturday, and you
+    want that. What changes is the last step, where the buyer leaves his details. During Shabbat and
+    holidays a short notice appears there: "We are closed for Shabbat and will answer your request
+    by Sunday, 10 a.m. Eastern." The buyer who is told when he will hear from you waits. The buyer
+    who hears nothing goes to the next supplier. The notice switches on and off by the calendar, so
+    nobody has to remember it, and your quote-speed promise says plainly that it counts working
+    hours. We set this up in month one, as part of the customer service job.</p>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 5 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="panel p-purple">
+    <span class="lbl">What we do alongside the four jobs</span>
+    <p>We have already gone through every page on your site, and the list is specific. We rework
+    your 25 thin pages in priority order: hardware and mounting styles first, since they sit on
+    searches that cost $1.74 to $3.28 a click with nobody paying for them. Three of your four guides
+    are short at roughly 310 words, and we expand them rather than rewrite them. We fix the blank <b>/guides</b> page, the empty <b>/blog</b>, the configurator sitting behind two different links, and the
+    pages missing from the list Google reads. City pages open only where you have a verified installer.<br><b>Videos.</b> A short video for each material and each building type, made from your spec sheets, the configurator and your installers’ job photos: what it is, where it belongs, what it costs per stall. Each one sits on its matching page, on YouTube and on your Google Business Profile, and the configurator gets a one-minute walkthrough. The first ones start in month two.</p>
+  </div>
+
+  <div class="sec"><span class="n">04</span><h2>How a facilities manager finds you</h2></div>
+
+  <p>A facilities manager searches by the building he runs, not by the city he already knows he is
+  in. He types “bathroom partitions for schools” or “hospital restroom partitions”, and the page that
+  answers his questions gets the quote request. These pages rank on their own, and they qualify the
+  lead before it reaches you: by the time he asks for a price, he has already read what you recommend
+  for his building and why. That is why job-type pages come before city pages in this plan.</p>
+
+  <p>You already have six industry pages, and Mark built them well: question-and-answer sections and
+  a budget range per stall. In month one we check each of them against the manufacturer spec sheets
+  and the rules that apply to that building type. From month two we bring every page up to the same
+  standard and add the building types you have no page for, hospitals first, then churches, hotels, retail and municipal buildings. We take them in the order your buyers search for them, and we show you that
+  order before we start.</p>
+
+  <div class="panel p-blue">
+    <span class="lbl">What every industry page carries</span>
+    <p><b>The questions that building asks first.</b> Vandal resistance and privacy for schools.
+    Hygiene, ADA clearances and privacy for hospitals. Moisture and rust for gyms, pools and locker
+    rooms. Durability and a fast install for restaurants. Code compliance and budget for municipal
+    buildings.<br>
+    <b>Your recommendation.</b> The material and mounting style you recommend for that building, and
+    the reason, linked to your material pages.<br>
+    <b>A budget range per stall, and typical lead times.</b><br>
+    <b>Real jobs of that type,</b> with photos, as your installers send them in.<br>
+    <b>A straight path to a price.</b> Your configurator and your one quote-speed promise, on every
+    industry page.<br>
+    <b>A listing request in the directories where that trade looks for suppliers,</b> so the same
+    buyer finds you off your site too.</p>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 6 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="sec"><span class="n">05</span><h2>Month one</h2></div>
+
+  <table>
+    <tbody><tr><th>What you get in month one</th><th class="num">Credits</th></tr>
+    <tr><td>Proof you are real: your address and Google Business Profile, listing requests submitted to all seven manufacturer dealer locators and to the trade associations and industry directories, reviews being collected, and your site set up so Google matches every accepted listing to one business</td><td class="num">85</td></tr>
+    <tr><td>One correct product list: your material pages and configurator checked against manufacturer specs, every product given its own page Google can find</td><td class="num">55</td></tr>
+    <tr><td>Installer directory: designed and built, and we start signing up your first installers</td><td class="num">45</td></tr>
+    <tr><td>Customer service: your one quote-speed promise on every page that makes one, every quote request and its reply time logged, reported to you monthly</td><td class="num">30</td></tr>
+    <tr><td>Your broken pages fixed, six industry pages checked for accuracy, thin-page rework begun with hardware and mounting styles first</td><td class="num">25</td></tr>
+    <tr><td>Live chat installed and answered around the clock by our agents. FullStory and Google Analytics installed, if your site does not have them yet, so we can watch how visitors use the site and count every quote and call</td><td class="num">20</td></tr>
+    <tr class="total"><td>Month one total</td><td class="num">260</td></tr>
+  </tbody></table>
+
+  <p>Month one totals exactly the 260 credits the $6,500 plan buys you, and none of it repeats
+  work Mark has already shipped.</p>
+
+  <p><b>Who does what.</b> Every line in the table is our work, inside your credits. Off the site,
+  that is your address and Google Business Profile, the listing requests to the seven manufacturers, the trade associations and the industry directories, the review outreach, and the installer directory, which we design and build.
+  On the site, we work directly in your Shopify admin and page editor with access Mark sets up at
+  kickoff: the product list, the page list Google reads, the code behind the pages, the quote-speed
+  text in all nine places, the <b>/guides</b> and <b>/blog</b> fixes, and the thin-page rework. You
+  need Mark only where your site’s code has to change, such as the configurator, cart, checkout, or
+  how the product list is displayed on <b>/products</b>. When that happens we hand him a written
+  spec, and his time on it stays between you and Mark, as it is today.</p>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 7 of 13</span></div>
+</div>
+
+<div class="page">
+  <p><b>Months two to six.</b> In month two we sign up your first installers against the license,
+  insurance and photo requirements, keep working through the thin-page list, and make the first videos. In month three we
+  open your first city pages behind verified installers, expand your guides starting with the three
+  thin ones, and add the missing industry pages starting with hospitals. In months four to six we add
+  the two architect packs, the drawing files and spec sheets an architect needs to put Next
+  Partitions into a building plan, more installers and the cities behind them, tracking of every step
+  from click to quote to booked job once you have enough visitors to measure, and more guides.</p>
+
+  <div class="sec"><span class="n">06</span><h2>How you will know it is working</h2></div>
+
+  <div class="cards">
+    <div class="card c-g"><h4>30 days</h4><p>Your address and Google Business Profile are verified.
+      Listing requests are in with all seven manufacturers, the trade associations and the industry
+      directories. Reviews are coming in. Your site makes one quote-speed promise. Live chat, FullStory
+      and Google Analytics are running, and every quote and call is counted. Your material pages,
+      configurator and industry pages are checked against the manufacturer specs. Every product has a
+      page Google can find. The three broken pages are fixed. Installer sign-up is open.</p></div>
+    <div class="card c-b"><h4>90 days</h4><p>Your first installers are listed, with license, insurance and photos verified, and linking to you. Your hardware and mounting-style pages are reworked. Your first
+      city pages are open behind installers. You receive your quote response time reported against
+      the published promise.</p></div>
+    <div class="card c-p"><h4>180 days</h4><p>Your installer directory is live, with city pages
+      behind it. All 25 thin pages are reworked and the missing industry pages added. You have two
+      architect packs. You see how you rank against your competitors in Google search, compared with where you stood on September 1.</p></div>
+  </div>
+
+  <div class="panel p-green">
+    <span class="lbl">Where this puts you at six months</span>
+    <p><b>Google has verified your business. Your listing requests are in with all seven manufacturers, the trade associations and the industry directories, and you are listed wherever they have accepted you. You have a live installer directory with 20 or more verified installers, each linking to you from his own site, and city pages open wherever they cover. Every material page and industry page carries its own short video. Google can see your whole product list. Your 25 thin pages are
+    reworked and the broken ones fixed. You have two architect packs and expanded guides. You make one quote-speed promise, measured and reported to you every month. Our agents have answered your live chat around the clock since month one, and reviews are coming in monthly.</b></p>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 8 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="sec"><span class="n">07</span><h2>What it costs</h2></div>
+
+  <table>
+    <tbody><tr><th>Monthly</th><th class="num">Credits a month</th><th>What you get by month six</th></tr>
+    <tr class="pick"><td>$6,500<span class="tag">RECOMMENDED</span></td><td class="num">260</td>
+        <td>Everything in this proposal: the month-one list done in four weeks, live chat answered around the clock, 20+ installers listed with city pages behind them, every thin page fixed, 2 architect packs.</td></tr>
+    <tr><td>$8,500</td><td class="num">340</td>
+        <td>The same, faster: 80 more credits a month for more industry and city pages, more guides, and the architect packs sooner.</td></tr>
+  </tbody></table>
+
+  <p>Both plans start with the same month one. The $6,500 plan delivers everything in this
+  proposal. The $8,500 plan adds 80 credits a month, which go into more industry pages, more guides
+  and the architect packs sooner; city pages open at the pace installers sign up, whichever plan you
+  choose. For comparison, five of your competitors spend about $34,000 a month on search ads between
+  them. <b>We recommend $6,500 a month.</b></p>
+
+  <div class="panel p-blue">
+    <span class="lbl">How your credits work, and why they are in your favor</span>
+    <p><b>One credit is $25 of work delivered to you,</b> priced from the published rate card that
+    comes with your agreement, so you can check any line before it is spent. Credits exist for one
+    reason: flexibility in your favor. Search moves, your business moves, and a fixed list of
+    deliverables written today would be wrong by month three. With credits, the money is fixed and
+    the work is not. Each month we do what is worth the most at that moment, we estimate every piece
+    before we start, and if the plan changes, the credits simply go to what matters now. Some months
+    you will carry a balance with us; some months we will be ahead of your payments. Both are fine.
+    Your credits never expire, anything you do not use rolls forward month after month, and each
+    month you receive a statement showing what was delivered, what it cost, and where your balance
+    stands. The plan runs month to month from kickoff and is invoiced monthly; there is no fixed
+    term.</p>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 9 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="sec"><span class="n">08</span><h2>Optional: a short Google Ads test to get answers sooner</h2></div>
+
+  <p>This is a separate decision from the plan above. It has its own budget and its own end date, and you can stop it if it is not working. It is not a permanent cost, and your credits do not depend on it. A short paid test
+  tells you what the build cannot tell you yet: which offer wins, whether your quote-speed promise is
+  what makes people buy, which cities and building types are worth opening first, and which materials
+  your buyers are really asking for. Five of your competitors already spend roughly $34,000 a month
+  between them on search ads, one of them around $14,000, on a site that barely shows up in the free
+  results.</p>
+
+  <div class="panel p-amber">
+    <span class="lbl">What we propose</span>
+    <p><b>You set a monthly ad budget of <span class="fill">[ figure to confirm ]</span></b>, billed
+    directly to your own Google Ads account, for a 90-day test. We manage it inside your credits. Ads
+    begin in month two, once your site makes one quote-speed promise, your quotes are being tracked,
+    and Google has verified your business. At day 90 we recommend scaling up, holding, or stopping,
+    based on what a quote costs you and what a booked job costs you. If the numbers do not justify
+    continuing, we say so and it ends.</p>
+  </div>
+
+  <div class="sec"><span class="n">09</span><h2>What this proposal does not cover</h2></div>
+
+  <p>This proposal does not cover Mark’s engineering work on your site: the cart, checkout, order management, configurator development, and any code change we hand him as a written spec. It does not cover your ad spend, which is billed directly to your Google Ads account, or your domain, hosting and software subscriptions. Your Google Merchant Center account and your manufacturer dealer relationships stay yours. We prepare and submit the listing requests; whether a manufacturer or a directory lists you is their decision. Live chat after its first 50 leads is priced per lead and agreed with you separately.</p>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 10 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="sec"><span class="n">10</span><h2>What we need from you</h2></div>
+
+  <div class="needs">
+    <div><span class="what"><b>Your business address, legal name and phone</b>, as they should appear on Google and the listings </span><span>Day one</span></div>
+    <div><span class="what"><b>The quote turnaround you will actually keep to</b> </span><span>Day one</span></div>
+    <div><span class="what"><b>Your existing customer list</b>, for review outreach </span><span>Day one</span></div>
+    <div><span class="what"><b>Your dealer account details and your contact at each of the seven manufacturers</b>, so we can request the locator listings </span><span>Week one</span></div>
+    <div><span class="what"><b>Your MAP terms</b> (minimum advertised price) from your manufacturer agreements </span><span>Before product pages go live</span></div>
+    <div><span class="what"><b>Installer contacts you already trust</b>, to seed the directory </span><span>Month two</span></div>
+    <div><span class="what"><b>Your approval of the ad test budget</b> </span><span>Before month two</span></div>
+    <div><span class="what"><b>Who covers quote replies</b> during holidays and closures </span><span>Kickoff</span></div>
+    <div><span class="what"><b>Mark’s contact, admin access to the site and Shopify, and his build timeline</b> </span><span>Kickoff</span></div>
+  </div>
+
+  <div class="sec"><span class="n">11</span><h2>One signature, then a kickoff call</h2></div>
+
+  <p>You only need the day-one lines ready before kickoff. We collect the rest from you as each stage
+  comes up.</p>
+
+  <div class="agree">
+    <h3>Agreement</h3>
+    <div class="arow"><span>Monthly credit plan</span><span class="fill">[ $6,500 / $8,500 ]</span></div>
+    <div class="arow"><span>Optional ad test, monthly ad budget (billed direct, 90 days)</span><span class="fill">[ figure to confirm ]</span></div>
+    <div class="arow"><span>Payment</span><span class="fill">[ monthly / six months in advance / twelve months in advance ]</span></div>
+    <div class="arow"><span>Start date</span><b>September 15, 2026</b></div>
+    <p class="brocha" dir="rtl" lang="he">כתיבה וחתימה טובה</p>
+    <div class="sign">
+      <div>Abe Gold · Next Partitions · Date</div>
+      <div>Joseph Green · Rank Friendly · Date</div>
+    </div>
+  </div>
+
+  <p class="close">Once you sign, we schedule your kickoff call within five business days. Questions
+  before then come to Joseph directly: <b>joseph@rankfriendly.com</b> · <b>844-668-7265</b></p>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 11 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="sec"><span class="n">12</span><h2>How to pay</h2></div>
+
+  <p>Each invoice can be paid by card through the link below, or by bank transfer to the account
+  below. Either way, the credits are in your account the day the payment arrives.</p>
+
+  <div class="pay">
+    <div class="card c-b"><h4>By card</h4><p>Secure card payment through Square:<br>
+      <a class="cite" href="https://square.link/u/NQS78f9W" target="_blank" rel="noopener">square.link/u/NQS78f9W</a></p></div>
+    <div class="card c-g"><h4>By bank transfer</h4><p>
+      <b>Rank Friendly Inc.</b><br>
+      1309 Coffeen Avenue, 1200, Sheridan, WY 82801<br>
+      Routing number: <b>121145433</b><br>
+      Account number: <b>780238270394751</b><br>
+      Bank: Column N.A., 1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129</p></div>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; Proposal for Next Partitions</span><span>Page 12 of 13</span></div>
+</div>
+
+<div class="page">
+  <div class="sec brk"><h2>Supplement: a one-time offer to pay in advance and get extra months free</h2></div>
+
+  <p>Pay in advance and we pay you back in work, not in a discount. Rank Friendly is growing this
+  year, hiring and investing in our own systems, and we would rather fund that with clients who pay
+  in advance than with a bank loan. So: pay six months in advance and the seventh month is free. Pay
+  a year in advance and three months are free, fifteen months of work for the price of twelve. The
+  free months arrive as bonus credits in your account on day one, priced from the same rate card as
+  everything else, spent on whatever you and we agree is worth the most next, and they never expire.
+  The offer holds if you confirm by September 15, 2026, the proposed start date.</p>
+
+  <table>
+    <tbody><tr><th>If you pay in advance</th><th class="num">Bonus credits on day one</th><th>What that is worth</th></tr>
+    <tr><td>Six months, $39,000 on the $6,500 plan</td><td class="num">260</td><td>One full extra month, $6,500 of work</td></tr>
+    <tr class="pick"><td>Twelve months, $78,000 on the $6,500 plan</td><td class="num">780</td><td>Three extra months, $19,500 of work</td></tr>
+  </tbody></table>
+
+  <p>On the $8,500 plan the bonus is the same in months: 340 credits for six months in advance,
+  1,020 for twelve.</p>
+
+  <div class="panel p-gold">
+    <span class="lbl">Our guarantee to you as an annual customer</span>
+    <p>Paying a year in advance should never mean waiting for us. Every request you email to your
+    project manager gets a real, helpful, human response within twelve business hours of when you
+    send it, for the whole year. That is not a bonus. It is our guarantee, and it is in writing here.
+    It should never happen, but if it does and our response arrives after twelve business hours, we
+    refund you $1,000. Our working days are Sunday to Thursday. We do not work on Fridays, Saturdays or
+    Jewish holidays, including Chol Hamoed, and those days do not count toward the twelve hours.</p>
+  </div>
+
+  <div class="foot"><span>Rank Friendly &middot; September 2026 &middot; joseph@rankfriendly.com &middot; 844-668-7265</span><span>Page 13 of 13</span></div>
+</div>
+</body>
+</html>
