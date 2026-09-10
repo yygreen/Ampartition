@@ -73,24 +73,26 @@ If you add a page, update the `Page N of 13` footer on every page.
 ## Publishing a change
 
 The Vercel project `np-proposal-2026` is connected to this repository, so every
-push builds automatically. Pushing this branch already produces a working
+push to `claude/dazzling-rubin-ip5o5a` builds automatically. That branch is the
+one and only working branch: edit it, push it, and the site rebuilds in about a
+minute.
+
+**One setting to check once.** Vercel has to treat this branch as the production
+branch, or pushes build as previews instead of going live. In Vercel, open
+`np-proposal-2026` → Settings → Git → Production Branch and set it to
+`claude/dazzling-rubin-ip5o5a`. After that, every push updates
+https://np-proposal-2026.vercel.app/ directly.
+
+Until that setting is changed, a push builds a preview at
+`np-proposal-2026-git-claude-dazzling-rubin-ip5o5a-rmbh.vercel.app`, which needs
+a Vercel login to open, and the live URL keeps serving the last production
 deployment.
 
-One setting still stands between a push and the live URL: Vercel's **production
-branch**. Pushes to this branch currently build as *previews*, at
-
-    np-proposal-2026-git-claude-dazzling-rubin-ip5o5a-rmbh.vercel.app
-
-Preview URLs sit behind Vercel Authentication, so you have to be signed in to
-Vercel to open one, and they are safe to share only with people who are. The
-live URL, https://np-proposal-2026.vercel.app/, is public and is what the client
-sees — it keeps serving the last production deployment until a push lands on the
-production branch.
-
-To make pushes here go straight to the live URL, set the production branch in
-Vercel: project `np-proposal-2026` → Settings → Git → Production Branch. Until
-then, preview first and promote in Vercel when you are happy with it, which is
-the safer order for a document a client is reading.
+**Edits are public as soon as they are pushed.** There is no promote step and no
+review gate, and the live URL is the one the client reads, so treat a push as
+publishing. If you want to see a change before it goes out, ask for a preview
+deployment first. If something lands wrong, Vercel keeps every previous
+deployment: open the project's Deployments tab and roll back to the one before.
 
 ## Sending it as a single file
 
